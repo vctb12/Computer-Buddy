@@ -205,3 +205,20 @@ h1 {
     align-items: flex-start;
   }
 }
+
+
+.faq-grid {
+  margin-top: 1rem;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.logo {
+  color: var(--text);
+  text-decoration: none;
+}
+
+.nav-list a:hover {
+  color: var(--accent);
+}

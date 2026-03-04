@@ -1,79 +1,88 @@
-const featuredCategories = [
+const categories = [
   {
-    name: 'Prebuilt Gaming PCs',
-    description: 'Curated systems with tested compatibility for smooth 1080p, 1440p, and 4K gaming.',
+    name: 'Custom PC Builds',
+    description: 'Choose performance targets and get pre-validated component combinations.',
   },
   {
-    name: 'DIY PC Components',
-    description: 'GPUs, CPUs, RAM, storage, and cooling selected with easy-to-compare specifications.',
+    name: 'Gaming Upgrades',
+    description: 'Find compatible GPUs, CPUs, RAM, and storage with clear generation guidance.',
   },
   {
-    name: 'Streaming & Creator Gear',
-    description: 'Monitors, capture tools, and audio hardware designed for reliability and clear setup paths.',
+    name: 'Creator & Streaming',
+    description: 'Balanced setups for streaming, editing, and content production.',
   },
 ];
 
-const accessibilityHighlights = [
-  'Keyboard-first navigation with visible focus indicators',
-  'Improved color contrast and readable spacing',
-  'Semantic landmarks for better screen reader support',
-  'Helpful fallback links when a page cannot be found',
+const trustSignals = [
+  'Compatibility checks on every build path',
+  'Human support from real PC specialists',
+  'Accessible shopping flow designed for keyboard and screen-reader users',
+  'Transparent delivery and warranty details',
+];
+
+const faqs = [
+  {
+    question: 'Why did I previously see a Netlify page-not-found screen?',
+    answer:
+      'The deployment pipeline has been aligned to publish the Next.js static export output folder directly, so root and published routes now resolve correctly.',
+  },
+  {
+    question: 'How can I recover from a broken or old link?',
+    answer:
+      'Use the homepage navigation, or open our not-found page recovery links to return home or contact support.',
+  },
+  {
+    question: 'Is this website usable without a mouse?',
+    answer:
+      'Yes. The site includes a skip link, visible keyboard focus, semantic landmarks, and clear heading structure.',
+  },
 ];
 
 export default function HomePage() {
   return (
     <>
-      <a className="skip-link" href="#main-content">
+      <a href="#main" className="skip-link">
         Skip to main content
       </a>
 
       <header className="site-header" aria-label="Site header">
         <div className="container header-inner">
-          <p className="logo" aria-label="Computer Buddy home">
+          <a className="logo" href="/" aria-label="Computer Buddy homepage">
             Computer Buddy
-          </p>
+          </a>
           <nav aria-label="Primary navigation">
             <ul className="nav-list">
-              <li>
-                <a href="#categories">Categories</a>
-              </li>
-              <li>
-                <a href="#accessibility">Accessibility</a>
-              </li>
-              <li>
-                <a href="#support">Support</a>
-              </li>
+              <li><a href="#solutions">Solutions</a></li>
+              <li><a href="#trust">Why us</a></li>
+              <li><a href="#faq">FAQ</a></li>
+              <li><a href="#support">Support</a></li>
             </ul>
           </nav>
         </div>
       </header>
 
-      <main id="main-content">
+      <main id="main">
         <section className="hero" aria-labelledby="hero-title">
           <div className="container">
-            <p className="eyebrow">Inclusive gaming starts here</p>
-            <h1 id="hero-title">A faster, clearer, and more accessible Computer Buddy experience</h1>
+            <p className="eyebrow">Accessible by design</p>
+            <h1 id="hero-title">Build, buy, and upgrade with confidence</h1>
             <p className="hero-copy">
-              We revamped the website so every customer can shop confidently, understand compatibility faster,
-              and reach support without dead ends.
+              Computer Buddy helps gamers and creators choose reliable hardware with clear compatibility guidance,
+              practical recommendations, and inclusive support.
             </p>
             <div className="hero-actions" role="group" aria-label="Primary actions">
-              <a className="button primary" href="#categories">
-                Explore categories
-              </a>
-              <a className="button secondary" href="#support">
-                Get support
-              </a>
+              <a className="button primary" href="#solutions">Explore solutions</a>
+              <a className="button secondary" href="#support">Contact support</a>
             </div>
           </div>
         </section>
 
-        <section id="categories" className="section" aria-labelledby="categories-title">
+        <section id="solutions" className="section" aria-labelledby="solutions-title">
           <div className="container">
-            <h2 id="categories-title">Featured shopping areas</h2>
-            <ul className="card-grid" aria-label="Product categories">
-              {featuredCategories.map((category) => (
-                <li className="card" key={category.name}>
+            <h2 id="solutions-title">Featured solutions</h2>
+            <ul className="card-grid" aria-label="Featured categories">
+              {categories.map((category) => (
+                <li key={category.name} className="card">
                   <h3>{category.name}</h3>
                   <p>{category.description}</p>
                 </li>
@@ -82,31 +91,42 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section id="accessibility" className="section muted" aria-labelledby="accessibility-title">
+        <section id="trust" className="section muted" aria-labelledby="trust-title">
           <div className="container">
-            <h2 id="accessibility-title">Accessibility improvements in this revamp</h2>
+            <h2 id="trust-title">Why customers trust Computer Buddy</h2>
             <ul className="check-list">
-              {accessibilityHighlights.map((item) => (
-                <li key={item}>{item}</li>
+              {trustSignals.map((signal) => (
+                <li key={signal}>{signal}</li>
               ))}
             </ul>
           </div>
         </section>
 
+        <section id="faq" className="section" aria-labelledby="faq-title">
+          <div className="container">
+            <h2 id="faq-title">Frequently asked questions</h2>
+            <div className="faq-grid">
+              {faqs.map((faq) => (
+                <article key={faq.question} className="card">
+                  <h3>{faq.question}</h3>
+                  <p>{faq.answer}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
         <section id="support" className="section" aria-labelledby="support-title">
           <div className="container support-panel">
-            <h2 id="support-title">Need help now?</h2>
+            <h2 id="support-title">Need help right now?</h2>
             <p>
-              If you followed an outdated link, you'll now get a clear, accessible not-found page with direct recovery options.
-              You can also use the links below for direct support.
+              If you landed on an outdated URL, use our recovery options below. You can always return to the
+              homepage or contact support directly.
             </p>
             <ul>
-              <li>
-                <a href="mailto:support@computerbuddy.example">Email support</a>
-              </li>
-              <li>
-                <a href="/">Return to homepage</a>
-              </li>
+              <li><a href="/">Return to homepage</a></li>
+              <li><a href="/404.html">Open the recovery page</a></li>
+              <li><a href="mailto:support@computerbuddy.example">Email support</a></li>
             </ul>
           </div>
         </section>
