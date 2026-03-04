@@ -1,128 +1,224 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+:root {
+  color-scheme: dark;
+  --bg: #090d1a;
+  --panel: #11172a;
+  --panel-muted: #0d1324;
+  --text: #eff4ff;
+  --text-muted: #b5c3e0;
+  --accent: #5cf0c9;
+  --accent-strong: #17d7aa;
+  --focus: #ffd166;
+  --border: #24314f;
+}
 
-@layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 47.4% 11.2%;
+* {
+  box-sizing: border-box;
+}
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 47.4% 11.2%;
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.6;
+  background: radial-gradient(circle at top right, #1b2b4a 0%, var(--bg) 55%);
+  color: var(--text);
+}
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
+a {
+  color: var(--accent);
+}
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 47.4% 11.2%;
+a:focus-visible,
+button:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+.skip-link {
+  position: absolute;
+  left: 0.75rem;
+  top: -4rem;
+  background: #ffffff;
+  color: #0a0a0a;
+  padding: 0.75rem 1rem;
+  z-index: 1000;
+  text-decoration: none;
+}
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+.skip-link:focus {
+  top: 0.75rem;
+}
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+.container {
+  width: min(1100px, 92vw);
+  margin: 0 auto;
+}
 
-    --destructive: 0 100% 50%;
-    --destructive-foreground: 210 40% 98%;
+.site-header {
+  border-bottom: 1px solid var(--border);
+  background: rgba(9, 13, 26, 0.95);
+  backdrop-filter: blur(6px);
+}
 
-    --ring: 215 20.2% 65.1%;
+.header-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 0;
+}
 
-    --radius: 0.5rem;
-  }
+.logo {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0;
+}
 
-  .dark {
-    --background: 224 71% 4%;
-    --foreground: 213 31% 91%;
+.nav-list {
+  display: flex;
+  gap: 1rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
 
-    --muted: 223 47% 11%;
-    --muted-foreground: 215.4 16.3% 56.9%;
+.nav-list a {
+  text-decoration: none;
+  color: var(--text);
+}
 
-    --accent: 216 34% 17%;
-    --accent-foreground: 210 40% 98%;
+.hero {
+  padding: 5rem 0 3rem;
+}
 
-    --popover: 224 71% 4%;
-    --popover-foreground: 215 20.2% 65.1%;
+.eyebrow {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
 
-    --border: 216 34% 17%;
-    --input: 216 34% 17%;
+h1,
+h2,
+h3 {
+  line-height: 1.25;
+}
 
-    --card: 224 71% 4%;
-    --card-foreground: 213 31% 91%;
+h1 {
+  max-width: 20ch;
+  margin: 0 0 1rem;
+  font-size: clamp(2rem, 4vw, 3rem);
+}
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 1.2%;
+.hero-copy {
+  max-width: 62ch;
+  color: var(--text-muted);
+}
 
-    --secondary: 222.2 47.4% 11.2%;
-    --secondary-foreground: 210 40% 98%;
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.4rem;
+}
 
-    --destructive: 0 63% 31%;
-    --destructive-foreground: 210 40% 98%;
+.button {
+  display: inline-block;
+  padding: 0.75rem 1rem;
+  border-radius: 0.6rem;
+  text-decoration: none;
+  border: 1px solid var(--border);
+}
 
-    --ring: 216 34% 17%;
+.button.primary {
+  background: var(--accent);
+  color: #041016;
+  font-weight: 700;
+  border-color: transparent;
+}
 
-    --radius: 0.5rem;
+.button.primary:hover {
+  background: var(--accent-strong);
+}
+
+.button.secondary {
+  color: var(--text);
+  background: transparent;
+}
+
+.section {
+  padding: 2.5rem 0;
+}
+
+.section.muted {
+  background: var(--panel-muted);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.card-grid {
+  list-style: none;
+  margin: 1.25rem 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 1rem;
+}
+
+.card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  padding: 1rem;
+}
+
+.card p,
+.support-panel p {
+  color: var(--text-muted);
+}
+
+.check-list {
+  margin: 1rem 0 0;
+  padding-left: 1.2rem;
+}
+
+.check-list li + li {
+  margin-top: 0.6rem;
+}
+
+.support-panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  padding: 1rem;
+}
+
+@media (max-width: 700px) {
+  .header-inner {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }
 
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-    font-feature-settings: "rlig" 1, "calt" 1;
-  }
+
+.faq-grid {
+  margin-top: 1rem;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
 }
 
-/* Custom gaming styles */
-@layer components {
-  .gaming-card {
-    @apply bg-gaming-dark border border-gaming-cyber rounded-lg p-6 shadow-lg relative overflow-hidden;
-  }
-  
-  .gaming-card::before {
-    content: '';
-    position: absolute;
-    top: -2px;
-    left: -2px;
-    right: -2px;
-    bottom: -2px;
-    background: linear-gradient(45deg, #0ef3a6, #ff00ff, #0ef3a6, #ff00ff);
-    z-index: -1;
-    border-radius: calc(var(--radius) + 2px);
-  }
-  
-  .neon-button {
-    @apply relative inline-flex items-center justify-center px-6 py-3 font-bold text-white transition-all duration-300 bg-transparent border-2 border-gaming-cyber hover:bg-gaming-cyber hover:text-gaming-dark focus:outline-none focus:ring-2 focus:ring-gaming-cyber focus:ring-opacity-50 uppercase tracking-wider;
-  }
-  
-  .neon-button::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(45deg, #0ef3a6, #ff00ff, #0ef3a6, #ff00ff);
-    z-index: -1;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-  
-  .neon-button:hover::after {
-    opacity: 0.2;
-  }
-  
-  .cyber-grid-bg {
-    background-image: 
-      linear-gradient(rgba(14, 243, 166, 0.1) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(14, 243, 166, 0.1) 1px, transparent 1px);
-    background-size: 30px 30px;
-  }
+.logo {
+  color: var(--text);
+  text-decoration: none;
+}
+
+.nav-list a:hover {
+  color: var(--accent);
 }
