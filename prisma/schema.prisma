@@ -1,0 +1,476 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User model with authentication fields
+model User {
+  id                     String         @id @default(cuid())
+  email                  String         @unique
+  username               String         @unique
+  passwordHash           String?        // For local authentication
+  avatarUrl              String?
+  firstName              String?
+  lastName               String?
+  isEmailVerified        Boolean        @default(false)
+  emailVerificationToken String?
+  emailVerificationExpiry DateTime?
+  resetPasswordToken     String?
+  resetPasswordExpiry    DateTime?
+  
+  // Social login providers
+  googleId      String?
+  discordId     String?
+  githubId      String?
+  
+  // Account settings
+  isTwoFactorEnabled Boolean @default(false)
+  twoFactorSecret    String?
+  
+  // Roles and permissions
+  role      UserRole @default(USER)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // Relations
+  addresses     Address[]
+  orders        Order[]
+  reviews       Review[]
+  wishlists     WishlistItem[]
+  cartItems     CartItem[]
+  compatibilityChecks CompatibilityCheck[]
+  
+  @@map("users")
+}
+
+// User roles enum
+enum UserRole {
+  USER
+  ADMIN
+  MODERATOR
+}
+
+// Address model for shipping/billing
+model Address {
+  id           String   @id @default(cuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  firstName    String
+  lastName     String
+  company      String?
+  addressLine1 String
+  addressLine2 String?
+  city         String
+  state        String
+  postalCode   String
+  country      String
+  phone        String?
+  isDefault    Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  
+  @@map("addresses")
+}
+
+// Product category model
+model Category {
+  id          String     @id @default(cuid())
+  name        String
+  slug        String     @unique
+  description String?
+  parentId    String?
+  parent      Category?  @relation("CategoryToCategory", fields: [parentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  children    Category[] @relation("CategoryToCategory")
+  products    Product[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  
+  @@map("categories")
+}
+
+// Product model
+model Product {
+  id                  String           @id @default(cuid())
+  name                String
+  slug                String           @unique
+  description         String
+  shortDescription    String?
+  brand               String           // e.g., NVIDIA, AMD, Razer
+  price               Float
+  compareAtPrice      Float?
+  sku                 String           @unique
+  gtin                String?          // Global Trade Item Number
+  mpn                 String?          // Manufacturer Part Number
+  isInStock           Boolean          @default(true)
+  stockQuantity       Int              @default(0)
+  reservedQuantity    Int              @default(0) // Items reserved in carts/orders
+  minStockQuantity    Int              @default(0)
+  weight              Float?           // in grams
+  dimensions          Dimension?
+  thumbnailUrl        String?
+  mediaUrls           String[]         // Array of image URLs
+  rating              Float?           @default(0) // Average rating (0-5)
+  reviewCount         Int              @default(0)
+  isPublished         Boolean          @default(false)
+  isFeatured          Boolean          @default(false)
+  isArchived          Boolean          @default(false)
+  categories          Category[]
+  tags                Tag[]
+  variants            ProductVariant[]
+  reviews             Review[]
+  compatibilityChecks CompatibilityCheck[]
+  
+  // Game-specific fields
+  gameRequirements    GameRequirement?
+  
+  // Hardware-specific fields
+  hardwareSpecs       HardwareSpec?
+  
+  // Bundle information
+  isBundle            Boolean          @default(false)
+  bundleItems         BundleItem[]
+  
+  // Pre-order information
+  isPreOrder          Boolean          @default(false)
+  preOrderReleaseDate DateTime?
+  preOrderDepositPercentage Float?     // Percentage of total price for deposit
+  
+  createdAt           DateTime         @default(now())
+  updatedAt           DateTime         @updatedAt
+  
+  @@map("products")
+}
+
+// Product variant model (different sizes/colors/configurations)
+model ProductVariant {
+  id                  String        @id @default(cuid())
+  productId           String
+  product             Product       @relation(fields: [productId], references: [id], onDelete: Cascade)
+  name                String        // e.g., "RTX 4090 24GB"
+  sku                 String        @unique
+  gtin                String?
+  mpn                 String?
+  price               Float
+  compareAtPrice      Float?
+  isInStock           Boolean       @default(true)
+  stockQuantity       Int           @default(0)
+  reservedQuantity    Int           @default(0)
+  attributes          Json          // JSON object containing variant attributes
+  createdAt           DateTime      @default(now())
+  updatedAt           DateTime      @updatedAt
+  
+  @@map("product_variants")
+}
+
+// Product dimension model
+model Dimension {
+  id        String @id @default(cuid())
+  productId String @unique
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  length    Float  // in cm
+  width     Float  // in cm
+  height    Float  // in cm
+  unit      String @default("cm")
+  
+  @@map("dimensions")
+}
+
+// Product tag model
+model Tag {
+  id        String     @id @default(cuid())
+  name      String     @unique
+  slug      String     @unique
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  products  Product[]
+  
+  @@map("tags")
+}
+
+// Game requirement model
+model GameRequirement {
+  id                String @id @default(cuid())
+  productId         String @unique
+  product           Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  
+  // Minimum requirements
+  minOS             String?
+  minCPU            String?
+  minGPU            String?
+  minRAM            String?  // e.g., "8 GB RAM"
+  minStorage        String?  // e.g., "50 GB available space"
+  minDirectX        String?
+  minNetwork        String?
+  
+  // Recommended requirements
+  recOS             String?
+  recCPU            String?
+  recGPU            String?
+  recRAM            String?
+  recStorage        String?
+  recDirectX        String?
+  recNetwork        String?
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@map("game_requirements")
+}
+
+// Hardware specification model
+model HardwareSpec {
+  id              String @id @default(cuid())
+  productId       String @unique
+  product         Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  
+  // Common hardware specs
+  interface       String?  // e.g., PCIe 4.0 x16
+  memorySize      String?  // e.g., "24GB GDDR6X"
+  memorySpeed     String?  // e.g., "21000 MHz"
+  coreClock       String?  // e.g., "2230 MHz"
+  boostClock      String?  // e.g., "2520 MHz"
+  tdp             String?  // Thermal Design Power: e.g., "450W"
+  ports           String?  // e.g., "3x DisplayPort, 1x HDMI"
+  features        String[] // Array of features
+  color           String?
+  ledSupport      Boolean?
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  
+  @@map("hardware_specs")
+}
+
+// Bundle item model (for product bundles)
+model BundleItem {
+  id         String @id @default(cuid())
+  bundleId   String
+  productId  String
+  bundle     Product @relation("BundleToBundleItem", fields: [bundleId], references: [id], onDelete: Cascade)
+  product    Product @relation("ProductToBundleItem", fields: [productId], references: [id], onDelete: Restrict)
+  quantity   Int    @default(1)
+  discountPercentage Float? // Discount applied to this item in the bundle
+  
+  @@map("bundle_items")
+  @@unique([bundleId, productId])
+}
+
+// Shopping cart item model
+model CartItem {
+  id         String @id @default(cuid())
+  userId     String
+  user       User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productId  String
+  product    Product @relation(fields: [productId], references: [id], onDelete: Restrict)
+  quantity   Int    @default(1)
+  variantId  String?
+  variant    ProductVariant?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  
+  @@map("cart_items")
+  @@unique([userId, productId, variantId])
+}
+
+// Wishlist item model
+model WishlistItem {
+  id         String @id @default(cuid())
+  userId     String
+  user       User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productId  String
+  product    Product @relation(fields: [productId], references: [id], onDelete: Restrict)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  
+  @@map("wishlist_items")
+  @@unique([userId, productId])
+}
+
+// Order model
+model Order {
+  id                   String         @id @default(cuid())
+  orderNumber          String         @unique
+  userId               String
+  user                 User           @relation(fields: [userId], references: [id], onDelete: Restrict)
+  status               OrderStatus    @default(PENDING)
+  paymentStatus        PaymentStatus  @default(PENDING)
+  fulfillmentStatus    FulfillmentStatus @default(PENDING)
+  
+  // Pricing
+  subtotal             Float
+  taxAmount            Float          @default(0)
+  shippingCost         Float          @default(0)
+  discountAmount       Float          @default(0)
+  totalAmount          Float
+  currency             String         @default("USD")
+  
+  // Addresses
+  billingAddress       Address
+  shippingAddress      Address
+  
+  // Tracking
+  trackingNumber       String?
+  shippedAt            DateTime?
+  deliveredAt          DateTime?
+  
+  // Payment and fulfillment
+  paymentIntentId      String?        // Stripe payment intent ID
+  paymentProvider      PaymentProvider?
+  transactionId        String?        // From payment provider
+  notes                String?
+  
+  // Relations
+  orderItems           OrderItem[]
+  digitalKeys          DigitalKey[]
+  refunds              Refund[]
+  
+  createdAt            DateTime       @default(now())
+  updatedAt            DateTime       @updatedAt
+  
+  @@map("orders")
+}
+
+// Order item model
+model OrderItem {
+  id          String @id @default(cuid())
+  orderId     String
+  order       Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId   String
+  product     Product @relation(fields: [productId], references: [id], onDelete: Restrict)
+  variantId   String?
+  variant     ProductVariant?
+  quantity    Int
+  price       Float    // Price at time of purchase
+  totalPrice  Float    // Quantity * price
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@map("order_items")
+}
+
+// Digital key model (for game keys, licenses)
+model DigitalKey {
+  id            String      @id @default(cuid())
+  orderId       String
+  order         Order       @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId     String
+  product       Product     @relation(fields: [productId], references: [id], onDelete: Restrict)
+  key           String      // The actual key (encrypted)
+  platform      String      // Platform where the key can be activated (Steam, Epic, etc.)
+  isRedeemed    Boolean     @default(false)
+  redeemedAt    DateTime?
+  redeemBy      DateTime?   // Expiration date for key redemption
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  
+  @@map("digital_keys")
+}
+
+// Refund model
+model Refund {
+  id            String       @id @default(cuid())
+  orderId       String
+  order         Order        @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  reason        String?
+  status        RefundStatus @default(PENDING)
+  refundedAmount Float
+  refundedAt    DateTime?
+  processedBy   String?      // Admin user who processed the refund
+  notes         String?
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  
+  @@map("refunds")
+}
+
+// Review model
+model Review {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productId  String
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  rating     Int      // 1-5 stars
+  title      String?
+  comment    String?
+  isVerified Boolean  @default(false) // Verified purchase
+  helpfulCount Int    @default(0)
+  isApproved Boolean  @default(false)
+  isSpam     Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  
+  @@map("reviews")
+  @@unique([userId, productId])
+}
+
+// Compatibility check model ("Will It Run?" feature)
+model CompatibilityCheck {
+  id                    String @id @default(cuid())
+  userId                String
+  user                  User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productId             String
+  product               Product @relation(fields: [productId], references: [id], onDelete: Restrict)
+  userCpu               String // User's CPU
+  userGpu               String // User's GPU
+  userRam               String // User's RAM (e.g., "16GB")
+  userOs                String // User's OS
+  userOsVersion         String // User's OS version
+  isCompatible          Boolean
+  compatibilityScore    Float  // 0-100 percentage score
+  recommendations       String? // Text recommendations for upgrades
+  compatibilityNotes    String? // Additional notes about compatibility
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+  
+  @@map("compatibility_checks")
+  @@unique([userId, productId])
+}
+
+// Enums for various statuses
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+  REFUNDED
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
+  PARTIALLY_REFUNDED
+}
+
+enum FulfillmentStatus {
+  PENDING
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
+
+enum PaymentProvider {
+  STRIPE
+  COINBASE
+  PAYPAL
+}
+
+enum RefundStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  PROCESSED
+}
