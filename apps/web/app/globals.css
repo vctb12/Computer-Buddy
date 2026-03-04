@@ -222,3 +222,10 @@ h1 {
 .nav-list a:hover {
   color: var(--accent);
 }
+
+
+.site-footer {
+  border-top: 1px solid var(--border);
+  padding: 1.2rem 0 2rem;
+  color: var(--text-muted);
+}

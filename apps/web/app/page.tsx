@@ -131,6 +131,12 @@ export default function HomePage() {
           </div>
         </section>
       </main>
+
+      <footer className="site-footer" aria-label="Site footer">
+        <div className="container">
+          <p>© {new Date().getFullYear()} Computer Buddy. Accessible hardware guidance for every gamer.</p>
+        </div>
+      </footer>
     </>
   );
 }

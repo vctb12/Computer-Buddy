@@ -2,35 +2,37 @@
 
 ## Chosen strategy
 
-This repo uses **Next.js static export** for `apps/web`.
+This repo uses **Next.js static export** for `apps/web`, built from the **monorepo root** so workspace packages resolve correctly.
 
-- Next config sets `output: 'export'`.
-- Netlify publishes the generated static files from `apps/web/out`.
-- No Next.js runtime/plugin is required for this setup.
+### Why
+`apps/web/tsconfig.json` extends `@computer-buddy/config/tsconfig`, which is a local workspace package in `packages/config`. Building only from `apps/web` can miss workspace linking and fail TypeScript resolution.
 
 ## Netlify settings
 
 Defined in `netlify.toml`:
 
-- **Base directory:** `apps/web`
-- **Build command:** `npm run build`
-- **Publish directory:** `out`
+- **Base directory:** `/`
+- **Build command:** `npm ci && npm run --workspace @computer-buddy/web build`
+- **Publish directory:** `apps/web/out`
+- **Node version:** `20`
 
-This ensures Netlify deploys the actual static output that includes `index.html`.
+This ensures Netlify installs/link workspaces from root and publishes the correct static export output containing `index.html`.
 
 ## Redirects and headers
 
-- Redirects are defined in **one place**: `netlify.toml`.
-- Security headers are defined in `apps/web/public/_headers`.
-- Avoid duplicate/conflicting rules in other `_redirects`/`_headers` files.
+- **Single source of truth for headers:** `apps/web/public/_headers`
+- No redirect rules are defined in `netlify.toml`.
+- No `_redirects` files are used.
 
 ## Verification checklist
 
-1. Build the app in `apps/web`.
-2. Confirm these files exist:
+1. Run root install + build:
+   - `npm ci`
+   - `npm run --workspace @computer-buddy/web build`
+2. Confirm output artifacts:
    - `apps/web/out/index.html`
    - `apps/web/out/404.html`
+   - `apps/web/out/_headers`
 3. Deploy and verify:
-   - `/` loads homepage (not Netlify default 404)
-   - Known routes load
-   - Unknown route returns project 404 page
+   - `/` renders the homepage
+   - unknown routes show project 404 page (not Netlify default error page)
