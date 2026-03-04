@@ -1,2 +1,0 @@
-# Computer-Buddy
-Computer Buddy
