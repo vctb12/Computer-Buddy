@@ -1,0 +1,11 @@
+{
+  "name": "@computer-buddy/config",
+  "version": "1.0.0",
+  "private": true,
+  "exports": {
+    "./tsconfig": "./tsconfig/base.json",
+    "./tailwind-config": "./tailwind/index.js",
+    "./eslint-config": "./eslint/index.js",
+    "./prettier-config": "./prettier/index.js"
+  }
+}
