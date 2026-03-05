@@ -1,5 +1,6 @@
 # Dependencies
 node_modules/
+.pnpm-store/
 
 # Build outputs
 dist/
@@ -7,40 +8,28 @@ build/
 .next/
 out/
 
-# Environment variables
-.env
-.env.local
-.env.*
-
-# Python cache
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-
 # Logs
 *.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
-# IDE files
+# Environment variables
+.env.local
+.env.production.local
+.env.development.local
+
+# IDE
 .vscode/
 .idea/
 *.swp
 *.swo
 
-# OS files
+# OS
 .DS_Store
 Thumbs.db
 
 # Coverage
 coverage/
-htmlcov/
-.coverage
-
-# TypeScript/JavaScript
-*.tsbuildinfo
-.nyc_output
-
-# Temporary files
-*.tmp
-*.temp
+.nyc_output/
 ```
