@@ -10,8 +10,8 @@ import { cn } from '@/lib/utils';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Computer Buddy - Premium Gaming Hardware Store',
-  description: 'Buy the latest GPUs, gaming peripherals, and digital game keys. Check PC compatibility with our "Will It Run?" tool.',
+  title: 'Computer Buddy - Premium Gaming Hardware & PC Components UAE',
+  description: 'Shop the latest gaming PCs, graphics cards, processors, and accessories in the UAE. Fast delivery, competitive prices, and expert support.',
 };
 
 export default function RootLayout({
