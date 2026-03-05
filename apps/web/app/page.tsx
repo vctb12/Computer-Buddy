@@ -26,7 +26,7 @@ import {
   Memory,
   HardDrive
 } from 'lucide-react';
-import ChatWidget from '@/components/chat/chat-widget';
+
 
 // Mock data for products
 const mockProducts = [

@@ -1,32 +1,41 @@
+export type Category =
+  | "prebuilt" | "gpu" | "cpu" | "ram" | "storage"
+  | "mobo" | "psu" | "case" | "cooling" | "keyboard"
+  | "mouse" | "headset" | "chair" | "monitor" | "service";
+
 export interface Product {
   id: string;
   slug: string;
   title: string;
   brand: string;
-  category: string;
+  category: Category;
   price_aed: number;
-  compare_at?: number;
+  compare_at_aed?: number;
   stock: number;
   rating: number;
+  review_count: number;
   images: string[];
   specs: Record<string, string>;
-  warranty: string;
+  warranty_months: number;
   delivery_estimate: string;
   tags: string[];
+  featured?: boolean;
+  deal_of_week?: boolean;
 }
 
 export const products: Product[] = [
   // Graphics Cards
   {
     id: 'gpu-1',
-    slug: 'rtx-4090-24gb',
+    slug: 'nvidia-geforce-rtx-4090-24gb',
     title: 'NVIDIA GeForce RTX 4090 24GB',
     brand: 'NVIDIA',
     category: 'gpu',
     price_aed: 6499,
-    compare_at: 6999,
+    compare_at_aed: 6999,
     stock: 12,
     rating: 4.9,
+    review_count: 142,
     images: ['https://placehold.co/400x400/1a1a1a/ffffff?text=RTX+4090'],
     specs: {
       'CUDA Cores': '16384',
@@ -34,22 +43,26 @@ export const products: Product[] = [
       'Boost Clock': '2520 MHz',
       'Memory': '24GB GDDR6X',
       'Memory Bus': '384-bit',
-      'TGP': '450W'
+      'TGP': '450W',
+      'Interface': 'PCIe 4.0 x16',
+      'Length': '312 mm'
     },
-    warranty: '3 years manufacturer warranty',
+    warranty_months: 36,
     delivery_estimate: '2-3 business days (UAE)',
-    tags: ['bestseller', 'high-end', '4k-gaming']
+    tags: ['bestseller', 'high-end', '4k-gaming'],
+    featured: true
   },
   {
     id: 'gpu-2',
-    slug: 'rtx-4080-16gb',
+    slug: 'nvidia-geforce-rtx-4080-16gb',
     title: 'NVIDIA GeForce RTX 4080 16GB',
     brand: 'NVIDIA',
     category: 'gpu',
     price_aed: 4299,
-    compare_at: 4599,
+    compare_at_aed: 4599,
     stock: 8,
     rating: 4.8,
+    review_count: 98,
     images: ['https://placehold.co/400x400/1a1a1a/ffffff?text=RTX+4080'],
     specs: {
       'CUDA Cores': '9728',
@@ -57,22 +70,26 @@ export const products: Product[] = [
       'Boost Clock': '2505 MHz',
       'Memory': '16GB GDDR6X',
       'Memory Bus': '256-bit',
-      'TGP': '320W'
+      'TGP': '320W',
+      'Interface': 'PCIe 4.0 x16',
+      'Length': '285 mm'
     },
-    warranty: '3 years manufacturer warranty',
+    warranty_months: 36,
     delivery_estimate: '2-3 business days (UAE)',
-    tags: ['4k-gaming', 'ray-tracing']
+    tags: ['4k-gaming', 'ray-tracing'],
+    featured: true
   },
   {
     id: 'gpu-3',
-    slug: 'rx-7900-xtx-24gb',
+    slug: 'amd-radeon-rx-7900-xtx-24gb',
     title: 'AMD Radeon RX 7900 XTX 24GB',
     brand: 'AMD',
     category: 'gpu',
     price_aed: 3999,
-    compare_at: 4299,
+    compare_at_aed: 4299,
     stock: 5,
     rating: 4.7,
+    review_count: 76,
     images: ['https://placehold.co/400x400/1a1a1a/ffffff?text=RX+7900+XTX'],
     specs: {
       'Stream Processors': '6144',
@@ -80,22 +97,26 @@ export const products: Product[] = [
       'Boost Clock': '2500 MHz',
       'Memory': '24GB GDDR6',
       'Memory Bus': '384-bit',
-      'TGP': '355W'
+      'TGP': '355W',
+      'Interface': 'PCIe 4.0 x16',
+      'Length': '295 mm'
     },
-    warranty: '3 years manufacturer warranty',
+    warranty_months: 36,
     delivery_estimate: '2-3 business days (UAE)',
-    tags: ['4k-gaming', 'vr-ready']
+    tags: ['4k-gaming', 'vr-ready'],
+    featured: true
   },
   {
     id: 'gpu-4',
-    slug: 'rtx-4070-ti-12gb',
+    slug: 'nvidia-geforce-rtx-4070-ti-12gb',
     title: 'NVIDIA GeForce RTX 4070 Ti 12GB',
     brand: 'NVIDIA',
     category: 'gpu',
     price_aed: 2999,
-    compare_at: 3299,
+    compare_at_aed: 3299,
     stock: 15,
     rating: 4.6,
+    review_count: 124,
     images: ['https://placehold.co/400x400/1a1a1a/ffffff?text=RTX+4070+Ti'],
     specs: {
       'CUDA Cores': '7680',
@@ -103,11 +124,43 @@ export const products: Product[] = [
       'Boost Clock': '2790 MHz',
       'Memory': '12GB GDDR6X',
       'Memory Bus': '192-bit',
-      'TGP': '285W'
+      'TGP': '285W',
+      'Interface': 'PCIe 4.0 x16',
+      'Length': '285 mm'
     },
-    warranty: '3 years manufacturer warranty',
+    warranty_months: 36,
     delivery_estimate: '2-3 business days (UAE)',
-    tags: ['qhd-gaming', 'dlss']
+    tags: ['qhd-gaming', 'dlss'],
+    featured: true
+  },
+
+  // Processors
+  {
+    id: 'cpu-1',
+    slug: 'intel-core-i9-14900k',
+    title: 'Intel Core i9-14900K',
+    brand: 'Intel',
+    category: 'cpu',
+    price_aed: 1899,
+    compare_at_aed: 2199,
+    stock: 10,
+    rating: 4.9,
+    review_count: 89,
+    images: ['https://placehold.co/400x400/1a1a1a/ffffff?text=i9-14900K'],
+    specs: {
+      'Cores': '24 (8P + 16E)',
+      'Threads': '32',
+      'Base Clock': '3.2 GHz',
+      'Max Boost': '5.8 GHz',
+      'Cache': '36 MB',
+      'TDP': '125W',
+      'Socket': 'LGA1700',
+      'Generation': '14th Gen'
+    },
+    warranty_months: 36,
+    delivery_estimate: '2-3 business days (UAE)',
+    tags: ['overclockable', 'gaming', 'content-creation'],
+    featured: true
   },
   
   // Processors
@@ -141,9 +194,10 @@ export const products: Product[] = [
     brand: 'AMD',
     category: 'cpu',
     price_aed: 2199,
-    compare_at: 2499,
+    compare_at_aed: 2499,
     stock: 6,
     rating: 4.8,
+    review_count: 74,
     images: ['https://placehold.co/400x400/1a1a1a/ffffff?text=Ryzen+9+7950X'],
     specs: {
       'Cores': '16',
@@ -151,11 +205,14 @@ export const products: Product[] = [
       'Base Clock': '4.5 GHz',
       'Max Boost': '5.7 GHz',
       'Cache': '80 MB',
-      'TDP': '170W'
+      'TDP': '170W',
+      'Socket': 'AM5',
+      'Generation': '7000 Series'
     },
-    warranty: '3 years manufacturer warranty',
+    warranty_months: 36,
     delivery_estimate: '2-3 business days (UAE)',
-    tags: ['overclockable', 'content-creation', 'multi-threading']
+    tags: ['overclockable', 'content-creation', 'multi-threading'],
+    featured: true
   },
   {
     id: 'cpu-3',
@@ -164,9 +221,10 @@ export const products: Product[] = [
     brand: 'Intel',
     category: 'cpu',
     price_aed: 1399,
-    compare_at: 1599,
+    compare_at_aed: 1599,
     stock: 12,
     rating: 4.7,
+    review_count: 102,
     images: ['https://placehold.co/400x400/1a1a1a/ffffff?text=i7-14700K'],
     specs: {
       'Cores': '20 (8P + 12E)',
@@ -174,9 +232,11 @@ export const products: Product[] = [
       'Base Clock': '3.4 GHz',
       'Max Boost': '5.6 GHz',
       'Cache': '33 MB',
-      'TDP': '125W'
+      'TDP': '125W',
+      'Socket': 'LGA1700',
+      'Generation': '14th Gen'
     },
-    warranty: '3 years manufacturer warranty',
+    warranty_months: 36,
     delivery_estimate: '2-3 business days (UAE)',
     tags: ['gaming', 'multitasking']
   },
@@ -187,9 +247,10 @@ export const products: Product[] = [
     brand: 'AMD',
     category: 'cpu',
     price_aed: 1699,
-    compare_at: 1899,
+    compare_at_aed: 1899,
     stock: 8,
     rating: 4.9,
+    review_count: 156,
     images: ['https://placehold.co/400x400/1a1a1a/ffffff?text=Ryzen+7+7800X3D'],
     specs: {
       'Cores': '8',
@@ -197,11 +258,43 @@ export const products: Product[] = [
       'Base Clock': '4.2 GHz',
       'Max Boost': '5.0 GHz',
       'Cache': '96 MB',
-      'TDP': '120W'
+      'TDP': '120W',
+      'Socket': 'AM5',
+      'Generation': '7000 Series',
+      'Feature': '3D V-Cache'
     },
-    warranty: '3 years manufacturer warranty',
+    warranty_months: 36,
     delivery_estimate: '2-3 business days (UAE)',
-    tags: ['gaming', '3d-v-cache', 'high-clock']
+    tags: ['gaming', '3d-v-cache', 'high-clock'],
+    featured: true
+  },
+
+  // Memory
+  {
+    id: 'ram-1',
+    slug: 'corsair-vengeance-rgb-32gb-ddr5',
+    title: 'Corsair Vengeance RGB 32GB DDR5 6000MHz',
+    brand: 'Corsair',
+    category: 'ram',
+    price_aed: 1299,
+    compare_at_aed: 1499,
+    stock: 20,
+    rating: 4.7,
+    review_count: 87,
+    images: ['https://placehold.co/400x400/1a1a1a/ffffff?text=Corsair+32GB'],
+    specs: {
+      'Capacity': '32GB (2x16GB)',
+      'Speed': '6000 MHz',
+      'Timings': 'CL36',
+      'Voltage': '1.35V',
+      'Type': 'DDR5',
+      'Kit': 'Dual Channel',
+      'RGB': 'Yes'
+    },
+    warranty_months: 24,
+    delivery_estimate: '2-3 business days (UAE)',
+    tags: ['rgb', 'overclocked', 'dual-channel'],
+    featured: true
   },
 
   // Memory
@@ -232,22 +325,26 @@ export const products: Product[] = [
     slug: 'gskill-trident-z5-rgb-64gb-ddr5',
     title: 'G.Skill Trident Z5 RGB 64GB DDR5 6200MHz',
     brand: 'G.Skill',
-    category: 'memory',
+    category: 'ram',
     price_aed: 2199,
-    compare_at: 2499,
+    compare_at_aed: 2499,
     stock: 10,
     rating: 4.8,
+    review_count: 64,
     images: ['https://placehold.co/400x400/1a1a1a/ffffff?text=G.Skill+64GB'],
     specs: {
       'Capacity': '64GB (2x32GB)',
       'Speed': '6200 MHz',
       'Timings': 'CL38',
       'Voltage': '1.40V',
-      'Type': 'DDR5'
+      'Type': 'DDR5',
+      'Kit': 'Dual Channel',
+      'RGB': 'Yes'
     },
-    warranty: '2 years manufacturer warranty',
+    warranty_months: 24,
     delivery_estimate: '2-3 business days (UAE)',
-    tags: ['rgb', 'high-capacity', 'extreme-performance']
+    tags: ['rgb', 'high-capacity', 'extreme-performance'],
+    featured: true
   },
   {
     id: 'ram-3',
