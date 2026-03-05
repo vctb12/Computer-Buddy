@@ -1,128 +1,27 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-@layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 47.4% 11.2%;
-
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 47.4% 11.2%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 47.4% 11.2%;
-
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-
-    --destructive: 0 100% 50%;
-    --destructive-foreground: 210 40% 98%;
-
-    --ring: 215 20.2% 65.1%;
-
-    --radius: 0.5rem;
-  }
-
-  .dark {
-    --background: 224 71% 4%;
-    --foreground: 213 31% 91%;
-
-    --muted: 223 47% 11%;
-    --muted-foreground: 215.4 16.3% 56.9%;
-
-    --accent: 216 34% 17%;
-    --accent-foreground: 210 40% 98%;
-
-    --popover: 224 71% 4%;
-    --popover-foreground: 215 20.2% 65.1%;
-
-    --border: 216 34% 17%;
-    --input: 216 34% 17%;
-
-    --card: 224 71% 4%;
-    --card-foreground: 213 31% 91%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 1.2%;
-
-    --secondary: 222.2 47.4% 11.2%;
-    --secondary-foreground: 210 40% 98%;
-
-    --destructive: 0 63% 31%;
-    --destructive-foreground: 210 40% 98%;
-
-    --ring: 216 34% 17%;
-
-    --radius: 0.5rem;
-  }
+:root {
+  --bg-primary:#06060C; --bg-secondary:#0D0D18; --bg-tertiary:#14142A; --accent-primary:#00F0A0;
+  --accent-secondary:#7B61FF; --accent-warn:#FF6B35; --text-primary:#F0F0F5; --text-secondary:#8888A0;
+  --text-tertiary:#55556A; --border-default:#1E1E36; --border-hover:#2E2E52;
 }
-
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-    font-feature-settings: "rlig" 1, "calt" 1;
-  }
-}
-
-/* Custom gaming styles */
-@layer components {
-  .gaming-card {
-    @apply bg-gaming-dark border border-gaming-cyber rounded-lg p-6 shadow-lg relative overflow-hidden;
-  }
-  
-  .gaming-card::before {
-    content: '';
-    position: absolute;
-    top: -2px;
-    left: -2px;
-    right: -2px;
-    bottom: -2px;
-    background: linear-gradient(45deg, #0ef3a6, #ff00ff, #0ef3a6, #ff00ff);
-    z-index: -1;
-    border-radius: calc(var(--radius) + 2px);
-  }
-  
-  .neon-button {
-    @apply relative inline-flex items-center justify-center px-6 py-3 font-bold text-white transition-all duration-300 bg-transparent border-2 border-gaming-cyber hover:bg-gaming-cyber hover:text-gaming-dark focus:outline-none focus:ring-2 focus:ring-gaming-cyber focus:ring-opacity-50 uppercase tracking-wider;
-  }
-  
-  .neon-button::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(45deg, #0ef3a6, #ff00ff, #0ef3a6, #ff00ff);
-    z-index: -1;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-  
-  .neon-button:hover::after {
-    opacity: 0.2;
-  }
-  
-  .cyber-grid-bg {
-    background-image: 
-      linear-gradient(rgba(14, 243, 166, 0.1) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(14, 243, 166, 0.1) 1px, transparent 1px);
-    background-size: 30px 30px;
-  }
-}
+*{box-sizing:border-box} html,body{margin:0;padding:0} body{font-family:Inter,system-ui,sans-serif;background:radial-gradient(circle at top right,#151536,var(--bg-primary));color:var(--text-primary)}
+a{color:var(--accent-primary)}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--accent-primary);outline-offset:2px}
+.skip-link{position:absolute;left:8px;top:-40px;background:#fff;color:#000;padding:.5rem;z-index:1000}.skip-link:focus{top:8px}
+.container{width:min(1100px,92vw);margin:0 auto}.page-shell{min-height:70vh}.site-header{position:sticky;top:0;z-index:5;background:rgba(6,6,12,.85);backdrop-filter:blur(8px);border-bottom:1px solid var(--border-default)}
+.header-inner{display:flex;justify-content:space-between;align-items:center;padding:.8rem 0;gap:1rem}.nav-list{display:flex;gap:.8rem;list-style:none;padding:0;margin:0;flex-wrap:wrap}
+.logo{font-weight:800;text-decoration:none;color:var(--text-primary)}
+.hero{padding:3.5rem 0;background-image:linear-gradient(transparent 95%,rgba(0,240,160,.2) 96%),linear-gradient(90deg,transparent 95%,rgba(123,97,255,.2) 96%);background-size:28px 28px}
+.eyebrow{text-transform:uppercase;letter-spacing:.08em;color:var(--accent-primary)}
+.hero-actions{display:flex;gap:.8rem;flex-wrap:wrap}
+.section{padding:2rem 0}.muted{color:var(--text-secondary)}
+.card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem}
+.card{background:var(--bg-secondary);border:1px solid var(--border-default);border-radius:12px;padding:1rem}
+.card:hover{border-color:var(--border-hover)}
+.button{display:inline-block;padding:.6rem .9rem;border-radius:8px;border:1px solid var(--border-default);text-decoration:none;background:transparent;color:var(--text-primary);cursor:pointer}
+.button.primary{background:var(--accent-primary);color:#06231b;font-weight:700;box-shadow:0 0 18px rgba(0,240,160,.35)}
+.button.secondary{background:transparent}
+input,select,textarea{display:block;width:100%;margin:.3rem 0 1rem;background:var(--bg-tertiary);border:1px solid var(--border-default);color:var(--text-primary);padding:.5rem;border-radius:8px}
+img{max-width:100%;height:auto;border-radius:8px}
+.site-footer{border-top:1px solid var(--border-default);padding:1.2rem 0 2.2rem}
+.whatsapp{position:fixed;right:12px;bottom:12px;background:var(--accent-primary);color:#031a12;padding:.6rem .9rem;border-radius:999px;font-weight:700;text-decoration:none}
+@media (prefers-reduced-motion: reduce){*{scroll-behavior:auto;animation:none!important;transition:none!important}}
