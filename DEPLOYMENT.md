@@ -1,33 +1,24 @@
-# Deployment Guide
+# Deployment Guide (Netlify + Next.js Static Export)
 
-## Build Configuration
+## Strategy
+This repo uses **pnpm workspace root install/build** and Next.js static export for `apps/web`.
 
-**Build Command:**
-```
-corepack enable && pnpm -w install --frozen-lockfile && pnpm --filter @computer-buddy/web run build
-```
+## Root cause fixed
+`apps/web/tsconfig.json` extends `@computer-buddy/config/tsconfig`. Building from `apps/web` alone can break workspace package resolution. Build now runs from repo root with pnpm workspace linking.
 
-**Publish Directory:** `apps/web/out`
+## Netlify config
+- Build command: `corepack enable && pnpm install && pnpm --filter @computer-buddy/web run build`
+- Publish directory: `apps/web/out`
+- Node version: `20`
 
-**Node Version:** 20
+## Rules
+- Headers source: `apps/web/public/_headers`
+- No duplicate redirect/header blocks in `netlify.toml`
 
-## Technical Notes
-
-- The original `tsconfig.json` in the web app extended `@computer-buddy/config/tsconfig` which caused resolution issues during Netlify builds
-- Fixed by creating a local `tsconfig.base.json` at the root and updating the web app's tsconfig to reference it relatively
-- Uses pnpm workspace filtering to build only the web app
-- Includes corepack enable to ensure consistent package manager version
-
-## Redirects & Headers
-
-All redirect and header configurations are managed through the `netlify.toml` file in the root directory to avoid conflicts with duplicate rules.
-
-## Local Testing
-
-To test the build locally:
-```
+## Local commands
+```bash
+corepack enable
 pnpm install
 pnpm --filter @computer-buddy/web run build
+pnpm --filter @computer-buddy/web run test
 ```
-
-The build output will be in `apps/web/out` which should match the publish directory configured in Netlify.

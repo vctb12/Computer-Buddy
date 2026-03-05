@@ -1,142 +1,22 @@
-const categories = [
-  {
-    name: 'Custom PC Builds',
-    description: 'Choose performance targets and get pre-validated component combinations.',
-  },
-  {
-    name: 'Gaming Upgrades',
-    description: 'Find compatible GPUs, CPUs, RAM, and storage with clear generation guidance.',
-  },
-  {
-    name: 'Creator & Streaming',
-    description: 'Balanced setups for streaming, editing, and content production.',
-  },
-];
-
-const trustSignals = [
-  'Compatibility checks on every build path',
-  'Human support from real PC specialists',
-  'Accessible shopping flow designed for keyboard and screen-reader users',
-  'Transparent delivery and warranty details',
-];
-
-const faqs = [
-  {
-    question: 'Why did I previously see a Netlify page-not-found screen?',
-    answer:
-      'The deployment pipeline has been aligned to publish the Next.js static export output folder directly, so root and published routes now resolve correctly.',
-  },
-  {
-    question: 'How can I recover from a broken or old link?',
-    answer:
-      'Use the homepage navigation, or open our not-found page recovery links to return home or contact support.',
-  },
-  {
-    question: 'Is this website usable without a mouse?',
-    answer:
-      'Yes. The site includes a skip link, visible keyboard focus, semantic landmarks, and clear heading structure.',
-  },
-];
+import Link from 'next/link';
+import { categories } from '@/data/categories';
+import { getDealsProducts, getFeaturedProducts } from '@/data/products';
+import { ProductCard } from '@/components/product-card';
 
 export default function HomePage() {
+  const featured = getFeaturedProducts().slice(0, 6);
+  const deal = getDealsProducts()[0];
   return (
     <>
-      <a href="#main" className="skip-link">
-        Skip to main content
-      </a>
-
-      <header className="site-header" aria-label="Site header">
-        <div className="container header-inner">
-          <a className="logo" href="/" aria-label="Computer Buddy homepage">
-            Computer Buddy
-          </a>
-          <nav aria-label="Primary navigation">
-            <ul className="nav-list">
-              <li><a href="#solutions">Solutions</a></li>
-              <li><a href="#trust">Why us</a></li>
-              <li><a href="#faq">FAQ</a></li>
-              <li><a href="#support">Support</a></li>
-            </ul>
-          </nav>
-        </div>
-      </header>
-
-      <main id="main">
-        <section className="hero" aria-labelledby="hero-title">
-          <div className="container">
-            <p className="eyebrow">Accessible by design</p>
-            <h1 id="hero-title">Build, buy, and upgrade with confidence</h1>
-            <p className="hero-copy">
-              Computer Buddy helps gamers and creators choose reliable hardware with clear compatibility guidance,
-              practical recommendations, and inclusive support.
-            </p>
-            <div className="hero-actions" role="group" aria-label="Primary actions">
-              <a className="button primary" href="#solutions">Explore solutions</a>
-              <a className="button secondary" href="#support">Contact support</a>
-            </div>
-          </div>
-        </section>
-
-        <section id="solutions" className="section" aria-labelledby="solutions-title">
-          <div className="container">
-            <h2 id="solutions-title">Featured solutions</h2>
-            <ul className="card-grid" aria-label="Featured categories">
-              {categories.map((category) => (
-                <li key={category.name} className="card">
-                  <h3>{category.name}</h3>
-                  <p>{category.description}</p>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
-
-        <section id="trust" className="section muted" aria-labelledby="trust-title">
-          <div className="container">
-            <h2 id="trust-title">Why customers trust Computer Buddy</h2>
-            <ul className="check-list">
-              {trustSignals.map((signal) => (
-                <li key={signal}>{signal}</li>
-              ))}
-            </ul>
-          </div>
-        </section>
-
-        <section id="faq" className="section" aria-labelledby="faq-title">
-          <div className="container">
-            <h2 id="faq-title">Frequently asked questions</h2>
-            <div className="faq-grid">
-              {faqs.map((faq) => (
-                <article key={faq.question} className="card">
-                  <h3>{faq.question}</h3>
-                  <p>{faq.answer}</p>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section id="support" className="section" aria-labelledby="support-title">
-          <div className="container support-panel">
-            <h2 id="support-title">Need help right now?</h2>
-            <p>
-              If you landed on an outdated URL, use our recovery options below. You can always return to the
-              homepage or contact support directly.
-            </p>
-            <ul>
-              <li><a href="/">Return to homepage</a></li>
-              <li><a href="/404.html">Open the recovery page</a></li>
-              <li><a href="mailto:support@computerbuddy.example">Email support</a></li>
-            </ul>
-          </div>
-        </section>
-      </main>
-
-      <footer className="site-footer" aria-label="Site footer">
-        <div className="container">
-          <p>© {new Date().getFullYear()} Computer Buddy. Accessible hardware guidance for every gamer.</p>
-        </div>
-      </footer>
+      <section className="hero"><p className="eyebrow">Dubai • Abu Dhabi • Sharjah</p><h1>Premium UAE Gaming Storefront</h1><p>AED pricing, COD checkout, and compatibility-checked PC builder.</p><div className="hero-actions"><Link className="button primary" href="/products/">Shop products</Link><Link className="button secondary" href="/builder/">Build your PC</Link></div></section>
+      <section className="section"><h2>Trust signals</h2><div className="card-grid"><article className="card"><h3>2-Year Warranty</h3><p>UAE local support and clear claim process.</p></article><article className="card"><h3>COD Available</h3><p>Cash on Delivery supported across emirates.</p></article><article className="card"><h3>Fast Delivery</h3><p>Same-day Dubai and next-day major emirates.</p></article></div></section>
+      <section className="section"><h2>Shop by category</h2><div className="card-grid">{categories.map((c)=><article key={c.slug} className="card"><h3>{c.label}</h3><p>{c.description}</p><Link href={`/products/?category=${c.slug}`}>Browse</Link></article>)}</div></section>
+      <section className="section"><h2>Featured products</h2><div className="card-grid">{featured.map((p)=><ProductCard key={p.id} product={p} />)}</div></section>
+      {deal ? <section className="section muted"><h2>Deal of the week</h2><article className="card"><h3>{deal.title}</h3><p>Now AED {deal.price_aed} for UAE customers.</p><Link className="button primary" href={`/products/${deal.slug}/`}>View deal</Link></article></section> : null}
+      <section className="section"><h2>Why choose Computer Buddy</h2><div className="card-grid"><article className="card"><h3>Expert Assembly</h3><p>Thermal tuning, cable management, and stress testing.</p></article><article className="card"><h3>Competitive Pricing</h3><p>Transparent AED pricing with real discounts.</p></article><article className="card"><h3>Local Service Team</h3><p>Walk-in and pickup options in the UAE.</p></article></div></section>
+      <section className="section"><h2>Customer reviews</h2><div className="card-grid"><article className="card"><p>“Super fast delivery in Dubai.”</p></article><article className="card"><p>“Builder tool made my parts selection easy.”</p></article><article className="card"><p>“COD checkout was seamless.”</p></article></div></section>
+      <section className="section"><h2>Newsletter + blog</h2><p>Read latest gaming hardware guides in our UAE blog.</p><Link href="/blog/">Go to Blog</Link></section>
+      <section className="section"><h2>FAQ</h2><div className="card-grid"><article className="card"><h3>Do you deliver outside Dubai?</h3><p>Yes, all emirates.</p></article><article className="card"><h3>Can I pay COD?</h3><p>Yes for eligible orders.</p></article><article className="card"><h3>Is VAT included?</h3><p>Shown at checkout with waiver conditions.</p></article><article className="card"><h3>Can I share builder setup?</h3><p>Yes through URL params.</p></article><article className="card"><h3>Do you support returns?</h3><p>Yes per warranty policy.</p></article><article className="card"><h3>Do you build custom PCs?</h3><p>Yes with validation checks.</p></article></div></section>
     </>
   );
 }
