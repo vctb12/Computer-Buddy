@@ -1,6 +1,6 @@
 [build]
   base = "/"
-  command = "npm ci && npm run --workspace @computer-buddy/web build"
+  command = "corepack enable && pnpm -w install --frozen-lockfile && pnpm --filter @computer-buddy/web run build"
   publish = "apps/web/out"
 
 [build.environment]
