@@ -1,0 +1,6 @@
+[build]
+  command = "corepack enable && pnpm install && pnpm --filter @computer-buddy/web run build"
+  publish = "apps/web/.next"
+
+[build.environment]
+  NODE_VERSION = "20"

@@ -1,16 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export', // Static export for Netlify
-  trailingSlash: true, // Ensure consistent URLs
-  images: {
-    unoptimized: true, // Since we're using static export
-  },
+  // IMPORTANT: removing static export to enable Route Handlers, Auth.js, webhooks, DB access, etc.
+  // output: 'export',
+  trailingSlash: false,
+  images: { unoptimized: true },
   env: {
-    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000',
-  },
-  // Disable server-side features not compatible with static export
-  experimental: {
-    appDir: true,
+    NEXT_PUBLIC_API_URL:
+      process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000",
   },
 };
 
