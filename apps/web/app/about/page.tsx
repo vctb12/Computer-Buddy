@@ -1,0 +1,1 @@
+export default function AboutPage() { return <section className="section"><h1>About Computer Buddy</h1><p>We build premium gaming systems for UAE gamers with transparent pricing and dependable support.</p></section>; }
