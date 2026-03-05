@@ -1,4 +1,35 @@
-const categories = [
+'use client';
+
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Separator } from '@/components/ui/separator';
+import { Skeleton } from '@/components/ui/skeleton';
+import { 
+  Gamepad2, 
+  Zap, 
+  Shield, 
+  Star, 
+  ShoppingCart, 
+  Search,
+  Filter,
+  Heart,
+  Eye,
+  TrendingUp,
+  Gem,
+  Headphones,
+  Monitor,
+  Cpu,
+  Memory,
+  HardDrive
+} from 'lucide-react';
+
+
+// Mock data for products
+const mockProducts = [
   {
     name: 'Custom PC Builds',
     description: 'Choose performance targets and get pre-validated component combinations.',
